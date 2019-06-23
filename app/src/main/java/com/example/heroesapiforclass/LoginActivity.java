@@ -45,14 +45,21 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginBLL bll = new LoginBLL(etUsername.getText().toString(),etPassword.getText().toString());
-                if(bll.checkUser())
-                {
-                    //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    Intent intent = new Intent(LoginActivity.this, HeroesActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+
+                checkUser("kiran","kiran");
+                LoginBLL bll = new LoginBLL(getApplicationContext(),etUsername.getText().toString(),etPassword.getText().toString());
+                bll.checkUser("kiran","kiran");
+//                if(bll.checkUserEnqueue())
+//                {
+//                    //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                    Intent intent = new Intent(LoginActivity.this, HeroesActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                }
+//                else
+//                {
+//                    Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 

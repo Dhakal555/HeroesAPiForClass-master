@@ -36,13 +36,9 @@ public class LoginTest {
                 .perform(typeText("kiran"))
                 .perform(closeSoftKeyboard());
 
-
-        Thread.sleep(250);
         onView(withId(R.id.btnLogin))
                 .perform(click());
 
     }
 
 }
-
-

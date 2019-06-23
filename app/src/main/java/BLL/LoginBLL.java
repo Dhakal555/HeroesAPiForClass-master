@@ -3,6 +3,7 @@ package BLL;
 import android.content.Context;
 import android.content.Intent;
 import android.os.StrictMode;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.heroesapiforclass.LoginActivity;
@@ -24,15 +25,54 @@ public class LoginBLL {
     //Context context;
     boolean isSuccess = false;
 
-    public LoginBLL(String username, String password) {
+    Context context;
+
+    public LoginBLL(Context context)
+    {
+        this.context=context;
+    }
+    public LoginBLL(Context context , String username, String password) {
         //this.context = context;
         this.username = username;
         this.password = password;
+        this.context = context;
     }
 
-    private void StrictMode() {
+    public void StrictMode() {
         android.os.StrictMode.ThreadPolicy policy = new android.os.StrictMode.ThreadPolicy.Builder().permitAll().build();
         android.os.StrictMode.setThreadPolicy(policy);
+    }
+
+    public boolean checkUser(String _username,String _password) {
+
+        HeroesAPI heroesAPI = Url.getInstance().create(HeroesAPI.class);
+
+        Call<LoginSignupResponse> usersCall = heroesAPI.checkUser(_username, _password);
+
+        usersCall.enqueue(new Callback<LoginSignupResponse>() {
+            @Override
+            public void onResponse(Call<LoginSignupResponse> call, Response<LoginSignupResponse> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(context, " Either username or password is incorrect", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    if (response.body().getSuccess()) {
+
+                        Url.Cookie = response.headers().get("Set-Cookie");
+                        Toast.makeText(context, "Success and cookie :" + Url.Cookie, Toast.LENGTH_SHORT).show();
+
+                        isSuccess=true;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginSignupResponse> call, Throwable t) {
+                Toast.makeText(context, " Error : " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return isSuccess;
     }
 
     public boolean checkUser() {
@@ -40,6 +80,7 @@ public class LoginBLL {
         Call<LoginSignupResponse> usersCall = heroesAPI.checkUser(username, password);
 
         StrictMode();
+
         try {
             Response<LoginSignupResponse> imageResponseResponse = usersCall.execute();
             // After saving an image, retrieve the current name of the image
@@ -50,6 +91,7 @@ public class LoginBLL {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return isSuccess;
     }
 }
