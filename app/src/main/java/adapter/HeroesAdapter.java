@@ -25,6 +25,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.zip.Inflater;
 
+import model.Comments;
 import model.Heroes;
 import url.Url;
 
@@ -57,7 +58,7 @@ public class HeroesAdapter extends RecyclerView.Adapter<HeroesAdapter.ViewHolder
         String imgPath = Url.BASE_URL + "uploads/" + heroes.getImage();
         StrictMode();
 
-
+        String comment1 ="";
         try {
             URL url = new URL(imgPath);
             viewHolder.imgPhoto.setImageBitmap(BitmapFactory.decodeStream((InputStream) url.getContent()));
@@ -67,10 +68,21 @@ public class HeroesAdapter extends RecyclerView.Adapter<HeroesAdapter.ViewHolder
         viewHolder.tvName.setText(heroes.getName());
         viewHolder.tvDesc.setText(heroes.getDesc());
 
+        if(heroes.getComments().size()>0) {
+            for (Comments comment : heroes.getComments()) {
+                comment1 += comment.getComment() + "\n";
+            }
+
+        }
+        else
+        {
+            comment1 = "No comments";
+
+        }
+        viewHolder.tvComments.append(comment1);
         viewHolder.imgPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(context, NestedJsonArrayActivity.class);
                 intent.putExtra("id",heroes.get_id());
               //  Toast.makeText(context, "Id " + heroes.get_id(), Toast.LENGTH_SHORT).show();
@@ -86,13 +98,14 @@ public class HeroesAdapter extends RecyclerView.Adapter<HeroesAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgPhoto;
-        TextView tvName, tvDesc;
+        TextView tvName, tvDesc ,tvComments;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgPhoto = itemView.findViewById(R.id.imgPhoto);
             tvName = itemView.findViewById(R.id.tvName);
             tvDesc = itemView.findViewById(R.id.tvDesc);
+            tvComments = itemView.findViewById(R.id.tvComments);
         }
     }
 }
