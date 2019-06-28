@@ -30,7 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     public final static String TAG = "LoginActivity";
     private EditText etUsername, etPassword;
     private Button btnLogin, btnRegister;
-    private boolean isSuccess=false;
+    private boolean isSuccess = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,23 +47,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                checkUser("kiran","kiran");
-                LoginBLL bll = new LoginBLL(getApplicationContext(),etUsername.getText().toString(),etPassword.getText().toString());
-                bll.checkUser("kiran","kiran");
-//                if(bll.checkUserEnqueue())
-//                {
-//                    //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                    Intent intent = new Intent(LoginActivity.this, HeroesActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                }
-//                else
-//                {
-//                    Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
-//                }
+                LoginBLL bll = new LoginBLL(getApplicationContext(), etUsername.getText().toString(), etPassword.getText().toString());
+                if (bll.checkUser()) {
+                    //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, HeroesActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public boolean checkUser(String username,String password) {
+    public boolean checkUser(String username, String password) {
 
         HeroesAPI heroesAPI = Url.getInstance().create(HeroesAPI.class);
 
@@ -92,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                         Url.Cookie = response.headers().get("Set-Cookie");
                         Toast.makeText(LoginActivity.this, "Success and cookie :" + Url.Cookie, Toast.LENGTH_SHORT).show();
 
-                        isSuccess=true;
+                        isSuccess = true;
                     }
                 }
             }

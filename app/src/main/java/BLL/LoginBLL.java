@@ -60,7 +60,7 @@ public class LoginBLL {
 
                         Url.Cookie = response.headers().get("Set-Cookie");
                         Toast.makeText(context, "Success and cookie :" + Url.Cookie, Toast.LENGTH_SHORT).show();
-
+                        
                         isSuccess=true;
                     }
                 }

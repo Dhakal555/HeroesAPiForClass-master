@@ -1,15 +1,20 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Heroes {
     private String _id;
     private String name;
     private String desc;
     private String image;
 
-    public Heroes(String name, String desc,String image) {
+    List<Comments> comments = new ArrayList<>();
+    public Heroes(String name, String desc,String image , List<Comments> comments) {
         this.name = name;
         this.desc = desc;
         this.image = image;
+        this.comments = comments;
     }
 
     public String getImage() {
@@ -42,5 +47,20 @@ public class Heroes {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public List<Comments> getComments() {
+        return comments;
+    }
+
+    @Override
+    public String toString() {
+        return "Heroes{" +
+                "_id='" + _id + '\'' +
+                ", name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                ", image='" + image + '\'' +
+                ", comments=" + comments +
+                '}';
     }
 }

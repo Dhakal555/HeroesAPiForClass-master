@@ -4,10 +4,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Toast;
 import java.util.List;
 import adapter.HeroesAdapter;
 import heroesapi.HeroesAPI;
+import model.Comments;
 import model.Heroes;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,7 +43,19 @@ public class HeroesActivity extends AppCompatActivity {
                     return;
                 }
 
+
                 List<Heroes> heroesList = response.body();
+
+                // For displaying heros and their comments all together
+                for(Heroes hero : heroesList)
+                {
+                    Log.d("Heros", "onResponse: " + hero.toString());
+                    for(Comments comment : hero.getComments())
+                    {
+                        Log.d("mero comments ", "onResponse: " + comment.getComment());
+                    }
+                }
+
                 //Pass List to the Adapter class
                 HeroesAdapter contactsAdapter = new HeroesAdapter(heroesList, HeroesActivity.this);
                 recyclerView.setAdapter(contactsAdapter);
