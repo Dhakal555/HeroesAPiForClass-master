@@ -27,10 +27,16 @@ public class LoginBLL {
 
     Context context;
 
+    public LoginBLL()
+    {
+
+    }
+
     public LoginBLL(Context context)
     {
         this.context=context;
     }
+
     public LoginBLL(Context context , String username, String password) {
         //this.context = context;
         this.username = username;
@@ -79,7 +85,25 @@ public class LoginBLL {
         HeroesAPI heroesAPI = Url.getInstance().create(HeroesAPI.class);
         Call<LoginSignupResponse> usersCall = heroesAPI.checkUser(username, password);
 
-        StrictMode();
+      // StrictMode();
+
+        try {
+            Response<LoginSignupResponse> imageResponseResponse = usersCall.execute();
+            // After saving an image, retrieve the current name of the image
+            if (imageResponseResponse.body().getSuccess()) {
+                Url.Cookie = imageResponseResponse.headers().get("Set-Cookie");
+                isSuccess = true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return isSuccess;
+    }
+
+    public boolean checkUserForTesting(String username,String password) {
+        HeroesAPI heroesAPI = Url.getInstance().create(HeroesAPI.class);
+        Call<LoginSignupResponse> usersCall = heroesAPI.checkUser(username, password);
 
         try {
             Response<LoginSignupResponse> imageResponseResponse = usersCall.execute();

@@ -18,6 +18,7 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 import BLL.LoginBLL;
+import StrictMode.StrictMod;
 import heroesapi.HeroesAPI;
 import model.LoginSignupResponse;
 import retrofit2.Call;
@@ -36,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -48,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 LoginBLL bll = new LoginBLL(getApplicationContext(), etUsername.getText().toString(), etPassword.getText().toString());
+                StrictMod.StrictMode();
                 if (bll.checkUser()) {
                     //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     Intent intent = new Intent(LoginActivity.this, HeroesActivity.class);
@@ -69,7 +72,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
+    public void StrictMode() {
+        android.os.StrictMode.ThreadPolicy policy = new android.os.StrictMode.ThreadPolicy.Builder().permitAll().build();
+        android.os.StrictMode.setThreadPolicy(policy);
+    }
 
     public boolean checkUser(String username, String password) {
 

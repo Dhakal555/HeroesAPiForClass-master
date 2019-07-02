@@ -72,12 +72,10 @@ public class HeroesAdapter extends RecyclerView.Adapter<HeroesAdapter.ViewHolder
             for (Comments comment : heroes.getComments()) {
                 comment1 += comment.getComment() + "\n";
             }
-
         }
         else
         {
             comment1 = "No comments";
-
         }
         viewHolder.tvComments.append(comment1);
         viewHolder.imgPhoto.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +83,6 @@ public class HeroesAdapter extends RecyclerView.Adapter<HeroesAdapter.ViewHolder
             public void onClick(View v) {
                 Intent intent = new Intent(context, NestedJsonArrayActivity.class);
                 intent.putExtra("id",heroes.get_id());
-              //  Toast.makeText(context, "Id " + heroes.get_id(), Toast.LENGTH_SHORT).show();
                 context.startActivity(intent);
             }
         });

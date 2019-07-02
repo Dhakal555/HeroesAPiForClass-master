@@ -43,7 +43,6 @@ public class HeroesActivity extends AppCompatActivity {
                     return;
                 }
 
-
                 List<Heroes> heroesList = response.body();
 
                 // For displaying heros and their comments all together
