@@ -3,6 +3,7 @@ package com.example.heroesapiforclass;
 import android.content.Intent;
 import android.graphics.LinearGradient;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.Formatter;
@@ -26,7 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import url.Url;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity{
 
     public final static String TAG = "LoginActivity";
     private EditText etUsername, etPassword;
@@ -45,23 +46,25 @@ public class LoginActivity extends AppCompatActivity {
 
         etUsername.setText("kiran");
         etPassword.setText("kiran");
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                LoginBLL bll = new LoginBLL(getApplicationContext(), etUsername.getText().toString(), etPassword.getText().toString());
-                StrictMod.StrictMode();
-                if (bll.checkUser()) {
+               final LoginBLL bll = new LoginBLL(getApplicationContext(), etUsername.getText().toString(), etPassword.getText().toString());
+                //Using strict mode for foreground thread
+                //  StrictMod.StrictMode();
+
+                if (checkUser("kiran", "kiran")) {
                     //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     Intent intent = new Intent(LoginActivity.this, HeroesActivity.class);
                     startActivity(intent);
                     finish();
-                }
-                else
-                {
-                    Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Error aayo", Toast.LENGTH_SHORT).show();
                 }
             }
+
         });
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -72,40 +75,32 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    public void StrictMode() {
-        android.os.StrictMode.ThreadPolicy policy = new android.os.StrictMode.ThreadPolicy.Builder().permitAll().build();
-        android.os.StrictMode.setThreadPolicy(policy);
-    }
 
-    public boolean checkUser(String username, String password) {
 
+
+    boolean checkUser(String username, String password) {
         HeroesAPI heroesAPI = Url.getInstance().create(HeroesAPI.class);
-
         Call<LoginSignupResponse> usersCall = heroesAPI.checkUser(username, password);
 
         usersCall.enqueue(new Callback<LoginSignupResponse>() {
             @Override
             public void onResponse(Call<LoginSignupResponse> call, Response<LoginSignupResponse> response) {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this, " Either username or password is incorrect", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, " Either username or password is incorrect" + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     if (response.body().getSuccess()) {
-
                         Url.Cookie = response.headers().get("Set-Cookie");
                         Toast.makeText(LoginActivity.this, "Success and cookie :" + Url.Cookie, Toast.LENGTH_SHORT).show();
-
                         isSuccess = true;
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<LoginSignupResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, " Error : " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
         return isSuccess;
     }
 }

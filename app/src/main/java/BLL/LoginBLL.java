@@ -27,16 +27,14 @@ public class LoginBLL {
 
     Context context;
 
-    public LoginBLL()
-    {
+    public LoginBLL(){
 
+        super();
     }
-
     public LoginBLL(Context context)
     {
         this.context=context;
     }
-
     public LoginBLL(Context context , String username, String password) {
         //this.context = context;
         this.username = username;
@@ -44,18 +42,18 @@ public class LoginBLL {
         this.context = context;
     }
 
-    public void StrictMode() {
-        android.os.StrictMode.ThreadPolicy policy = new android.os.StrictMode.ThreadPolicy.Builder().permitAll().build();
-        android.os.StrictMode.setThreadPolicy(policy);
-    }
+
+    //Async method
+
+
+
 
     public boolean checkUser(String _username,String _password) {
 
         HeroesAPI heroesAPI = Url.getInstance().create(HeroesAPI.class);
-
         Call<LoginSignupResponse> usersCall = heroesAPI.checkUser(_username, _password);
-
         usersCall.enqueue(new Callback<LoginSignupResponse>() {
+
             @Override
             public void onResponse(Call<LoginSignupResponse> call, Response<LoginSignupResponse> response) {
                 if (!response.isSuccessful()) {
@@ -63,15 +61,12 @@ public class LoginBLL {
                     return;
                 } else {
                     if (response.body().getSuccess()) {
-
                         Url.Cookie = response.headers().get("Set-Cookie");
                         Toast.makeText(context, "Success and cookie :" + Url.Cookie, Toast.LENGTH_SHORT).show();
-                        
                         isSuccess=true;
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<LoginSignupResponse> call, Throwable t) {
                 Toast.makeText(context, " Error : " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
@@ -81,11 +76,14 @@ public class LoginBLL {
         return isSuccess;
     }
 
+
+
+
+
+
     public boolean checkUser() {
         HeroesAPI heroesAPI = Url.getInstance().create(HeroesAPI.class);
         Call<LoginSignupResponse> usersCall = heroesAPI.checkUser(username, password);
-
-      // StrictMode();
 
         try {
             Response<LoginSignupResponse> imageResponseResponse = usersCall.execute();
@@ -97,7 +95,6 @@ public class LoginBLL {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return isSuccess;
     }
 
