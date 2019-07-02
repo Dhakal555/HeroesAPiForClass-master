@@ -2,6 +2,7 @@ package BLL;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
@@ -42,16 +43,10 @@ public class LoginBLL {
         this.context = context;
     }
 
-
     //Async method
-
-
-
-
-    public boolean checkUser(String _username,String _password) {
-
+    public boolean checkUserAsync() {
         HeroesAPI heroesAPI = Url.getInstance().create(HeroesAPI.class);
-        Call<LoginSignupResponse> usersCall = heroesAPI.checkUser(_username, _password);
+        Call<LoginSignupResponse> usersCall = heroesAPI.checkUser(username,password);
         usersCall.enqueue(new Callback<LoginSignupResponse>() {
 
             @Override
@@ -75,10 +70,6 @@ public class LoginBLL {
 
         return isSuccess;
     }
-
-
-
-
 
 
     public boolean checkUser() {
