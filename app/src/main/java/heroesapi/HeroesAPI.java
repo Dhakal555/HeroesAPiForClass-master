@@ -65,6 +65,10 @@ public interface HeroesAPI {
     Call<List<Comments>> getComments(@Header("Cookie") String cookie,@Path("id") String id );
 
 
+    @FormUrlEncoded
+    @POST("/heroes/{id}/comments")
+    Call<Heroes> addComments(@Header("Cookie") String cookie,@Path("id") String id,@Field("rating") int rating,@Field("comment") String comment);
+
 }
 
 

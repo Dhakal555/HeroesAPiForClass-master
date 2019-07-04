@@ -14,7 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NestedJsonArrayActivity"></activity>
+        <activity android:name=".AddCommentsActivity">
+
+
+        </activity>
+        <activity android:name=".NestedJsonArrayActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -28,7 +32,7 @@
             android:label="Display Heroes" />
         <activity
             android:name=".MainActivity"
-            android:label="Add Hero"></activity>
+            android:label="Add Hero" />
     </application>
 
 </manifest>

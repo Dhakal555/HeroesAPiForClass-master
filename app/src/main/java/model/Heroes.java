@@ -8,8 +8,9 @@ public class Heroes {
     private String name;
     private String desc;
     private String image;
+    List<Comments> comments ;
 
-    List<Comments> comments = new ArrayList<>();
+
     public Heroes(String name, String desc,String image , List<Comments> comments) {
         this.name = name;
         this.desc = desc;

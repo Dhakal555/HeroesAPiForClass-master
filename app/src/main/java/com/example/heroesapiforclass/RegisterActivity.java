@@ -24,7 +24,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-
         etRUsername = findViewById(R.id.etRUsername);
         etRPassword = findViewById(R.id.etRPassword);
         etRConfirmPass = findViewById(R.id.etRConfirmPass);
@@ -45,7 +44,6 @@ public class RegisterActivity extends AppCompatActivity {
             etRConfirmPass.setText("");
             return ;
         }
-
 
         String username = etRUsername.getText().toString();
         String password = etRPassword.getText().toString();

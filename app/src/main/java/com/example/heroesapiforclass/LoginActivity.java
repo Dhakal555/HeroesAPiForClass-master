@@ -1,24 +1,14 @@
 package com.example.heroesapiforclass;
 
 import android.content.Intent;
-import android.graphics.LinearGradient;
-import android.net.wifi.WifiManager;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.Formatter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
-
-import BLL.LoginBLL;
+import com.example.heroesapiforclass.BLL.LoginBLL;
 import StrictMode.StrictMod;
 import heroesapi.HeroesAPI;
 import model.LoginSignupResponse;
@@ -27,8 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import url.Url;
 
-public class LoginActivity extends AppCompatActivity{
-
+public class LoginActivity extends AppCompatActivity {
     public final static String TAG = "LoginActivity";
     private EditText etUsername, etPassword;
     private Button btnLogin, btnRegister;
@@ -38,26 +27,19 @@ public class LoginActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
 
-        etUsername.setText("kiran");
-        etPassword.setText("kiran");
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final LoginBLL bll = new LoginBLL(etUsername.getText().toString(), etPassword.getText().toString());
+                StrictMod.StrictMode();
 
-               final LoginBLL bll = new LoginBLL(getApplicationContext(), etUsername.getText().toString(), etPassword.getText().toString());
-                //Using strict mode for foreground thread
-                //  StrictMod.StrictMode();
-
-                if (checkUser("kiran", "kiran")) {
-                    //Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    Intent intent = new Intent(LoginActivity.this, HeroesActivity.class);
+                if (bll.checkUser()) {
+                    Intent intent = new Intent(LoginActivity.this, AddCommentsActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
@@ -70,11 +52,16 @@ public class LoginActivity extends AppCompatActivity{
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
     }
+
+
+
+
 
 
 
@@ -96,6 +83,7 @@ public class LoginActivity extends AppCompatActivity{
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<LoginSignupResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, " Error : " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
@@ -104,3 +92,5 @@ public class LoginActivity extends AppCompatActivity{
         return isSuccess;
     }
 }
+
+
