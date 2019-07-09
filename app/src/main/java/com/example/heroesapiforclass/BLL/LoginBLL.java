@@ -17,13 +17,14 @@ public class LoginBLL {
         this.username = username;
         this.password = password;
     }
+
     public boolean checkUser() {
         HeroesAPI heroesAPI = Url.getInstance().create(HeroesAPI.class);
         Call<LoginSignupResponse> usersCall = heroesAPI.checkUser(username, password);
 
         try {
             Response<LoginSignupResponse> imageResponseResponse = usersCall.execute();
-            if (imageResponseResponse.body().getSuccess()) {
+            if (imageResponseResponse.isSuccessful() && imageResponseResponse.body().getSuccess()){
                 Url.Cookie = imageResponseResponse.headers().get("Set-Cookie");
                 isSuccess = true;
             }

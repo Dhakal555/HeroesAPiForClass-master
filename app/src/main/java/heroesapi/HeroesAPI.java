@@ -2,7 +2,6 @@ package heroesapi;
 
 import java.util.List;
 import java.util.Map;
-
 import model.Comments;
 import model.Heroes;
 import model.ImageResponse;
@@ -19,7 +18,6 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
-import url.Url;
 
 public interface HeroesAPI {
     // 1. Using Class
